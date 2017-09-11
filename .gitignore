@@ -1,0 +1,3 @@
+node_modules/
+viewer/jspm_packages/
+db.json

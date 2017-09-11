@@ -1,0 +1,29 @@
+{
+  "name": "ABN",
+  "version": "1.0.0",
+  "description": "ABN Bank information analyser",
+  "licence": "MIT",
+  "dependencies": {
+    "body-parser": "^1.14.2",
+    "ejs": "^2.3.4",
+    "express": "^4.13.3",
+    "prompt": "^0.2.14"
+  },
+  "devDependencies": {
+    "jspm": "^0.16.19"
+  },
+  "jspm": {
+    "directories": {
+      "baseURL": "viewer"
+    },
+    "configFile": "viewer/jspm.conf.js",
+    "dependencies": {
+      "angular": "github:angular/bower-angular@^1.4.8",
+      "angular-material": "github:angular/bower-material@^1.0.1",
+      "highcharts": "npm:highcharts@^4.2.1",
+      "highcharts-ng": "npm:highcharts-ng@^0.0.11",
+      "jquery": "github:components/jquery@^2.1.4"
+    },
+    "devDependencies": {}
+  }
+}

@@ -1,0 +1,47 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Bank Data Viewer</title>
+	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+	<link rel="stylesheet" href="viewer.css">
+	
+	<script lang="text/javascript">
+		var jsonData = <%- jsonData %>;
+	</script>
+	<script src="jspm_packages/system.js"></script>
+	<script src="jspm.conf.js"></script>
+	<script>
+		System.import('viewer').catch(console.error.bind(console));
+	</script>
+</head>
+
+<body>
+	<h1><%= title %></h1>
+	
+	<div id="container" ng-controller="MainController">
+		<md-content class="md-padding" layout="row" layout-wrap layout-align="center start" layout-xs="column">
+			<div flex="70" flex-xs="100" layout="column">
+				<highchart config="main.chart"></highchart>
+				<md-content class="md-padding">
+					<md-list md-cols="3" md-row-height="30px">
+						<md-list-item ng-repeat="value in main.highscore">
+							<div flex="30" flex-xs="100" layout="column">{{value[0]}}</div>
+							<div flex="30" flex-xs="100" layout="column">{{value[1]}}</div>
+							<div flex="40" flex-xs="100" layout="column">{{value[2]}}</div>
+						</md-list-item>
+					</md-grid-list>
+				</md-content>
+			</div>
+			<div flex="30" flex-xs="100" layout="column">
+				<md-content class="md-padding">
+					<md-datepicker ng-model="main.startdate" md-placeholder="Start date"></md-datepicker>
+					<md-datepicker ng-model="main.enddate" md-placeholder="End date" md-max-date="main.maxdate"></md-datepicker>
+				</md-content>
+			</div>
+		</md-content>
+	</div>
+	
+</body>
+</html>

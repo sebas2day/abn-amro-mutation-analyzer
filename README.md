@@ -3,6 +3,8 @@ Tool to analyze your ABN AMRO bankaccount
 
 ## Pre-requisities
 * NodeJS
+* npm install
+* jspm install
 
 ## Quick start:
 

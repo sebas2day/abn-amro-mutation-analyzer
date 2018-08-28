@@ -2,6 +2,7 @@ var $ = require('jquery');
 var angular = require('angular');
 var angularMaterial = require('angular-material');
 var highcharts = require('highcharts');
+var moment = require('moment');
 
 var app = angular.module('app', ['ngMaterial']);
 
@@ -16,19 +17,31 @@ app.controller('MainController', function($scope){
 	main.startdate.setMonth(new Date().getMonth() - 1);
 	main.enddate = new Date();
 	main.highscore = scoreBankAccounts(main.startdate, main.enddate);
+	main.accountName = '';
+	main.description = '';
 	
 	$scope.$watch('main.startdate', function(){
 		main.chart.series[0] = updateSeries();
 		main.highscore = scoreBankAccounts(main.startdate, main.enddate);
+		updateList();
 	});
 	$scope.$watch('main.enddate', function(){
 		main.chart.series[0] = updateSeries();
 		main.highscore = scoreBankAccounts(main.startdate, main.enddate);
+		updateList();
+	});
+	$scope.$watch('main.accountName', function(){
+		updateList();
+	});
+	$scope.$watch('main.description', function(){
+		updateList();
 	});
 	
 	var amount = null;
 	var serieAmount = updateSeries();
 	
+	updateList();
+
 	main.chart = {		
 		chart: {
 			type: 'area',
@@ -57,6 +70,10 @@ app.controller('MainController', function($scope){
 		series: [ serieAmount ]
 	};
 	
+	main.transformDate = (transactionTimestamp) => {
+		return moment(getDateOfTransaction(transactionTimestamp)).format('DD/MM/YY HH:MM');
+	}
+
 	function updateSeries(){
 		var serie = createSeries('Amount', function(mutation){
 			if (amount == null){
@@ -78,10 +95,22 @@ app.controller('MainController', function($scope){
 		});
 		return serie;
 	}
-	
-	// $scope.$watch('main.chart', function(){
-		
-	// });
+
+	function updateList(){
+		var lastIndex = jsonData.mutations.length - 1;
+		main.mutations = [];
+
+		for (var i = lastIndex; i > 0; i--) {
+			var mutation = jsonData.mutations[i];
+			var mutationTime = getDateOfTransaction(mutation.transactionTimestamp);
+			if (mutationTime < main.startdate || mutationTime > main.enddate ||
+				mutation.accountName.toLowerCase().indexOf(main.accountName.toLowerCase()) == -1 ||
+				mutation.description.toLowerCase().indexOf(main.description.toLowerCase()) == -1) {
+				continue;
+			}
+			main.mutations.push(mutation);
+		}
+	}
 });
 
 app.directive('highchart', function(){

@@ -13,6 +13,7 @@ System.config({
     "highcharts": "npm:highcharts@4.2.1",
     "highcharts-ng": "npm:highcharts-ng@0.0.11",
     "jquery": "github:components/jquery@2.1.4",
+    "moment": "npm:moment@2.19.2",
     "github:angular/bower-angular-animate@1.4.8": {
       "angular": "github:angular/bower-angular@1.4.8"
     },

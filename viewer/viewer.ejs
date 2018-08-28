@@ -22,22 +22,38 @@
 	
 	<div id="container" ng-controller="MainController">
 		<md-content class="md-padding" layout="row" layout-wrap layout-align="center start" layout-xs="column">
-			<div flex="70" flex-xs="100" layout="column">
+			<div flex="50" flex-xs="100" layout="column">
 				<highchart config="main.chart"></highchart>
 				<md-content class="md-padding">
 					<md-list md-cols="3" md-row-height="30px">
 						<md-list-item ng-repeat="value in main.highscore">
 							<div flex="30" flex-xs="100" layout="column">{{value[0]}}</div>
-							<div flex="30" flex-xs="100" layout="column">{{value[1]}}</div>
-							<div flex="40" flex-xs="100" layout="column">{{value[2]}}</div>
+							<div flex="50" flex-xs="100" layout="column">{{value[1]}}</div>
+							<div flex="20" flex-xs="100" layout="column">{{value[2]}}</div>
 						</md-list-item>
 					</md-grid-list>
 				</md-content>
 			</div>
-			<div flex="30" flex-xs="100" layout="column">
+			<div flex="50" flex-xs="100" layout="column">
 				<md-content class="md-padding">
 					<md-datepicker ng-model="main.startdate" md-placeholder="Start date"></md-datepicker>
 					<md-datepicker ng-model="main.enddate" md-placeholder="End date" md-max-date="main.maxdate"></md-datepicker>
+				</md-content>
+				<md-content class="md-padding">
+					<md-list md-cols="3" md-row-height="30px">
+						<md-list-item>
+							<div flex="30" flex-xs="100" layout="column"><input ng-model="main.accountName" type="text"></div>
+							<div flex="40" flex-xs="100" layout="column"><input ng-model="main.description" type="text"></div>
+							<div flex="15" flex-xs="100" layout="column"></div>
+							<div flex="15" flex-xs="100" layout="column"></div>
+						</md-list-item>
+						<md-list-item ng-repeat="value in main.mutations">
+							<div flex="30" flex-xs="100" layout="column">{{value.accountName}}</div>
+							<div flex="40" flex-xs="100" layout="column">{{value.description}}</div>
+							<div flex="15" flex-xs="100" layout="column">{{value.amount}}</div>
+							<div flex="15" flex-xs="100" layout="column">{{main.transformDate(value.transactionTimestamp)}}</div>
+						</md-list-item>
+					</md-grid-list>
 				</md-content>
 			</div>
 		</md-content>

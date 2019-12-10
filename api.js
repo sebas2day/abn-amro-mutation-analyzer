@@ -20,7 +20,7 @@ API.prototype.setAccountNumber = function(accountNumber) {
 }
 
 API.prototype.getRequestPath = function(lastMutationKey) {
-	return 'https://www.abnamro.nl/mutations/' + this.accountNumber + '?includeActions=EXTENDED' +
+	return 'https://www.abnamro.nl/mutations/' + this.accountNumber + '?accountNumber=' + this.accountNumber + '&includeActions=EXTENDED' +
 		(lastMutationKey ? '&lastMutationKey=' + lastMutationKey : '');
 }
 
@@ -29,7 +29,7 @@ API.prototype.requestData = function(cookie, fiddlerEnabled, onResponse, path) {
 	var contractNr = this.accountNumber.substr(9);
 	var request = https.request(
 	{
-		host: fiddlerEnabled ? '127.0.0.1' : '167.202.214.30',
+		host: fiddlerEnabled ? '127.0.0.1' : '23.202.229.90',
 		port: fiddlerEnabled ? 8888 : 443,
 		path: path || this.getRequestPath(),
 		method: 'GET',
@@ -38,13 +38,16 @@ API.prototype.requestData = function(cookie, fiddlerEnabled, onResponse, path) {
 			'Connection': 'keep-alive',
 			'Cache-Control': 'no-cache',
 			'Pragma': 'no-cache',
-			'Accept': '*/*',
-			'Accept-Encoding': 'gzip, deflate, sdch',
+			'Accept': 'application/json, text/plain, */*',
+			'Accept-Encoding': 'gzip, deflate, br',
 			'Accept-Language': 'nl',
 			'Content-Type': 'application/json',
-			'Cookie': cookie,
-			'Referer': 'https://www.abnamro.nl/portalserver/nl/bankieren/rekeningen/bij-en-afschrijvingen?buildingBlockId=5&contractNumber=' + contractNr + '&accountNumber=' + this.accountNumber + '&mainWidgetId=wdg1437839321653',
-			'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.132 Safari/537.36',
+            'Cookie': cookie,
+            'Pragma': 'no-cache',
+            'Referer': 'https://www.abnamro.nl/portalserver/mijn-abnamro/betalen-en-sparen/bij-en-afschrijvingen/index.html',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-origin',
+			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36',
 			'x-aab-serviceversion': 'v3',
 			'X-Requested-With': 'XMLHttpRequest'
 		}

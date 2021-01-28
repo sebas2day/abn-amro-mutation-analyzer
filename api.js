@@ -41,7 +41,7 @@ API.prototype.requestData = function(cookie, fiddlerEnabled, onResponse, path) {
 			'Accept': 'application/json, text/plain, */*',
 			'Accept-Encoding': 'gzip, deflate, br',
 			'Accept-Language': 'nl',
-			'Content-Type': 'application/json',
+			'content-type': 'application/json',
             'Cookie': cookie,
             'Pragma': 'no-cache',
             'Referer': 'https://www.abnamro.nl/portalserver/mijn-abnamro/betalen-en-sparen/bij-en-afschrijvingen/index.html',
@@ -67,7 +67,7 @@ API.prototype.requestData = function(cookie, fiddlerEnabled, onResponse, path) {
 			output = zlib.createInflate(); 
 			response.pipe(output);
 		} else {
-			output = res;
+			output = response;
 		}
 
 		output.on('data', function (chunk) {

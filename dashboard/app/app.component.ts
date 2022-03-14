@@ -61,27 +61,34 @@ export class AppComponent {
     end: new FormControl(moment([2021, 11, 23])),
   });
 
+  private mutations: Mutation[] = [];
+
   constructor(http: HttpClient) {
     http.get<{ mutations: Mutation[] }>('/api/data').subscribe((records) => {
-      this.chartOptions = {
-        series: [{
-          name: 'Amount',
-          type: 'area',
-          data: records.mutations.map(mutation => ({
-            mutation,
-            timestamp: getDateOfTransaction(mutation.transactionTimestamp),
+      this.mutations = records.mutations;
+      this.dateRangeUpdate();
+    });
+  }
+
+  dateRangeUpdate() {
+    this.chartOptions = {
+      series: [{
+        name: 'Amount',
+        type: 'area',
+        data: this.mutations.map(mutation => ({
+          mutation,
+          timestamp: getDateOfTransaction(mutation.transactionTimestamp),
+        }))
+          .filter(({ timestamp }) =>
+            timestamp.isAfter(this.range.controls['start'].value) &&
+            timestamp.isBefore(this.range.controls['end'].value)
+          )
+          .map(({ mutation, timestamp }) => ({
+            x: timestamp.valueOf(),
+            y: mutation.balance,
+            description: mutation.description || mutation.accountName
           }))
-            .filter(({ timestamp }) =>
-              timestamp.isAfter(this.range.controls['start'].value) &&
-              timestamp.isBefore(this.range.controls['end'].value)
-            )
-            .map(({ mutation, timestamp }) => ({
-              x: timestamp.valueOf(),
-              y: mutation.balance,
-              description: mutation.description || mutation.accountName
-            }))
-        }]
-      }
-    })
+      }]
+    }
   }
 }

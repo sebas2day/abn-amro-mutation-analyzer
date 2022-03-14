@@ -61,11 +61,8 @@ export class AppComponent {
     end: new FormControl(moment([2021, 11, 23])),
   });
 
-  enddate: number = Date.UTC(2022, 1, 0);
-
-  constructor(private http: HttpClient) {
-    const data = http.get<{ mutations: Mutation[] }>('/api/data');
-    data.subscribe((records) => {
+  constructor(http: HttpClient) {
+    http.get<{ mutations: Mutation[] }>('/api/data').subscribe((records) => {
       this.chartOptions = {
         series: [{
           name: 'Amount',

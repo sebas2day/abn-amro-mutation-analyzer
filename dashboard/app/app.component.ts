@@ -19,7 +19,7 @@ function getDateOfTransaction(transactionTimestamp: string) {
 	var day = parseInt(transactionTimestamp.slice(6, 8));
 	var hour = parseInt(transactionTimestamp.slice(8, 10));
 	var minute = parseInt(transactionTimestamp.slice(10, 12));
-	return Date.UTC(year, month, day, hour, minute);
+	return moment([year, month, day, hour, minute]);
 }
 
 @Component({
@@ -73,10 +73,18 @@ export class AppComponent {
           name: 'Amount',
           type: 'area',
           data: records.mutations.map(mutation => ({
-            x: getDateOfTransaction(mutation.transactionTimestamp),
-            y: mutation.balance,
-            description: mutation.description || mutation.accountName
-          })).filter(record => record.x > this.startdate.value && record.x < this.enddate),
+            mutation,
+            timestamp: getDateOfTransaction(mutation.transactionTimestamp),
+          }))
+            .filter(({ timestamp }) =>
+              timestamp.isAfter(this.range.controls['start'].value) &&
+              timestamp.isBefore(this.range.controls['end'].value)
+            )
+            .map(({ mutation, timestamp }) => ({
+              x: timestamp.valueOf(),
+              y: mutation.balance,
+              description: mutation.description || mutation.accountName
+            }))
         }]
       }
     })

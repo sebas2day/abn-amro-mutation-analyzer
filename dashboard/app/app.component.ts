@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as Highcharts from 'highcharts';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import * as moment from 'moment';
 
 interface Mutation {
@@ -57,6 +57,11 @@ export class AppComponent {
   };
   // Datepicker takes `Moment` objects instead of `Date` objects.
   startdate = new FormControl(moment([2021, 9, 1]));
+
+  range = new FormGroup({
+    start: new FormControl(moment([2021, 11, 5])),
+    end: new FormControl(moment([2021, 11, 23])),
+  });
 
   enddate: number = Date.UTC(2022, 1, 0);
 

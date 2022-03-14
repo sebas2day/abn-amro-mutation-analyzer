@@ -55,8 +55,6 @@ export class AppComponent {
       type: 'area'
     }],
   };
-  // Datepicker takes `Moment` objects instead of `Date` objects.
-  startdate = new FormControl(moment([2021, 9, 1]));
 
   range = new FormGroup({
     start: new FormControl(moment([2021, 11, 5])),
